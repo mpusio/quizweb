@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+    <title>MP project</title>
+
+    <!-- CSS  -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.css" >
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="../../static/css/style.css" th:href="@{/css/style.css/}">
+
+</head>
+
+<body class="blue-grey">
+<nav class="green accent-4" role="navigation">
+    <div class="nav-wrapper container"><a id="logo-container" href="#" th:href="@{/}" class="brand-logo">QuizWeb</a>
+    </div>
+</nav>
+
+<div class="section no-pad-bot" id="index-banner" >
+    <div class="container center">
+        <br><br>
+        <h1 class="header green-text" th:text="'Error: ' + ${status}">Error: 404 Not Found</h1>
+        <div class="row center">
+            <img src="https://www.pinclipart.com/picdir/big/57-576022_svg-library-download-nerd-clipart-shock-shocked-png.png" alt="nerd-schocked" width="333" height="333">
+        </div>
+
+        <a class="waves-effect waves-light btn" th:href="@{/}">Back to home page</a>
+
+        <br>
+        <br>
+        <br>
+        <a>Do you wanna help me develop QuizWeb? Just send me information about error or another suggests here: pusiomichal@gmail.com</a>
+        <br>
+        <a>Thanks you!</a>
+        <br>
+    </div>
+</div>
+
+<footer class="page-footer blue-grey darken-3">
+    <div class="footer-copyright">
+        <div class="container">
+            Made by <a class="blue-text text-lighten-3" href="https://github.com/mpusio">Michał Pusio</a>
+        </div>
+    </div>
+</footer>
+
+<!--  Scripts-->
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.js"></script>
+<script type="text/javascript" src="../../static/js/init.js" th:src="@{/js/init.js/}"></script>
+
+</body>
+</html>

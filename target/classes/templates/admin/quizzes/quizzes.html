@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+  <title>MP project</title>
+
+  <!-- CSS  -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.css" >
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link rel="stylesheet" type="text/css" href="../../../static/css/style.css" th:src="@{/css/style.css/}">
+
+</head>
+<body>
+
+
+<nav class="red" role="navigation">
+    <a id="logo-container" class="brand-logo center">Admin Panel</a>
+
+    <ul id="slide-out" class="sidenav">
+        <li><a class="black white-text sidenav-close">Control Panel</a></li>
+
+        <li><a class='dropdown-trigger black-text' data-target='dropdown_quizzes'>Quizzes</a></li>
+
+        <ul id='dropdown_quizzes' class='dropdown-content'>
+            <li th:each="quiz: ${quizzes}"><a href="#!" th:text="${quiz.title}" th:href="@{'/admin/quizzes/' + ${quiz.id} + '/view'}">one</a></li>
+        </ul>
+
+        <li><a class='dropdown-trigger black-text' data-target='dropdown_users'>Users</a></li>
+
+        <ul id='dropdown_users' class='dropdown-content'>
+            <li th:each="user: ${users}"><a href="#!" th:text="${user.email}" th:href="@{'/admin/users/' + ${user.id} + '/view'}">one</a></li>
+        </ul>
+
+        <li><a href="#!" th:href="@{/admin/quizzes}">List of Quizzes</a></li>
+        <li><a href="#!" th:href="@{/admin/users}">List of Users</a></li>
+        <li>
+            <a>
+                <form th:action="@{/logout}" method="post">
+                    <input type="submit" class="btn red" value="Logout"/>
+                </form>
+            </a>
+        </li>
+    </ul>
+    <a href="#" data-target="slide-out" class="sidenav-trigger show-on-large"><i class="material-icons">menu</i></a>
+
+</nav>
+
+
+<div class="section no-pad-bot" id="index-banner" >
+    <div class="container">
+      <br><br>
+      <h1 class="header center red-text">Quizzes</h1>
+      <div class="row center">
+          <table class="centered striped" >
+              <thead>
+              <tr>
+                  <th>Id: </th>
+                  <th>Title: </th>
+                  <th>View: </th>
+                  <th>Edit: </th>
+                  <th>Delete: </th>
+              </tr>
+              </thead>
+
+              <tbody>
+              <tr th:each="quiz : ${quizzes}">
+                  <td th:text="${quiz.id}">1</td>
+                  <td th:text="${quiz.title}">QUIZ 1</td>
+
+                  <td><a href="#" th:href="@{'/admin/quizzes/' + ${quiz.id} + '/view'}">view</a></td>
+                  <td><a href="#" th:href="@{'/admin/quizzes/' + ${quiz.id} + '/edit'}">edit</a></td>
+                  <td><a href="#" th:href="@{'/admin/quizzes/' + ${quiz.id} + '/delete'}">delete</a></td>
+              </tr>
+
+
+              <tr th:remove="all">
+                  <td>2</td>
+                  <td>QUIZ 2</td>
+                  <td><a href="#">view</a></td>
+                  <td><a href="#">edit</a></td>
+                  <td><a href="#">delete</a></td>
+              </tr>
+
+              </tbody>
+          </table>
+
+          <a href="#" th:href="@{/admin/quizzes/form}" class="waves-effect waves-light btn-small left">New quiz +</a>
+
+        <a class="header col s12 light red-text">Click view to look at whole quiz </a>
+        <a class="header col s12 light red-text">Click edit to set up quiz, his questions and answers </a>
+        <a class="header col s12 light red-text">Click delete to remove quiz from database </a>
+
+      </div>
+      <br><br>
+    </div>
+  </div>
+
+
+</main>
+
+  <footer class="page-footer black">
+    <div class="footer-copyright">
+      <div class="container ">
+      <p class="right"> Made by <a class="red-text" href="https://github.com/mpusio">Michał Pusio</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <!--  Scripts-->
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.js"></script>
+  <script type="text/javascript" src="../../../static/js/init.js" th:src="@{/js/init.js/}"></script>
+
+  </body>
+</html>
