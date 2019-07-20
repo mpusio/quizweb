@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+    <title>MP project</title>
+
+    <!-- CSS  -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.css" >
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../static/css/style.css" th:src="@{/css/style.css/}">
+    <link rel="stylesheet" type="text/css" href="../../../static/css/dynamic-fields-style.css" th:src="@{/css/dynamic-fields-style.css}">
+
+
+</head>
+<body>
+
+
+<nav class="red" role="navigation">
+    <a id="logo-container" class="brand-logo center">Admin Panel</a>
+
+    <ul id="slide-out" class="sidenav">
+        <li><a class="black white-text sidenav-close">Control Panel</a></li>
+
+        <li><a class='dropdown-trigger black-text' data-target='dropdown_quizzes'>Quizzes</a></li>
+
+        <ul id='dropdown_quizzes' class='dropdown-content'>
+            <li th:each="quiz: ${quizzes}"><a href="#!" th:text="${quiz.title}" th:href="@{'/admin/quizzes/' + ${quiz.id} + '/view'}">one</a></li>
+        </ul>
+
+        <li><a class='dropdown-trigger black-text' data-target='dropdown_users'>Users</a></li>
+
+        <ul id='dropdown_users' class='dropdown-content'>
+            <li th:each="user: ${users}"><a href="#!" th:text="${user.email}" th:href="@{'/admin/users/' + ${user.id} + '/view'}">one</a></li>
+        </ul>
+
+        <li><a href="#!" th:href="@{/admin/quizzes}">List of Quizzes</a></li>
+        <li><a href="#!" th:href="@{/admin/users}">List of Users</a></li>
+        <li>
+            <a>
+                <form th:action="@{/logout}" method="post">
+                    <input type="submit" class="btn red" value="Logout"/>
+                </form>
+            </a>
+        </li>
+    </ul>
+    <a href="#" data-target="slide-out" class="sidenav-trigger show-on-large"><i class="material-icons">menu</i></a>
+
+</nav>
+
+<div class="section no-pad-bot" id="index-banner" >
+    <div class="container">
+        <br><br>
+        <h5 class="header center red-text">Add quiz</h5>
+
+        <div class="row centered" th:with="act = ${#httpServletRequest.getServletPath()}">
+
+            <form class="col s12" th:object="${quiz}" method="post" th:action="@{${act}}" >
+                <div class="row" >
+                    <div class="input-field col s12">
+                        <input id="n" class="validate" th:field="*{title}" >
+                        <label for="n" class="active">Title</label>
+                    </div>
+                </div>
+                <div class="row" >
+                    <div class="input-field col s12">
+                        <input id="textarea" class="materialize-textarea" th:field="*{description}"/>
+                        <label for="textarea" class="active">Description</label>
+                    </div>
+                </div>
+
+                <br><br>
+
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Question</th>
+                        <th>Description</th>
+                        <th>
+                            <button class="btn" type="submit" name="addQuestion">Add question</button>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody th:each="quest ,questStat : *{questions}">
+                    <tr >
+                        <td th:text="${questStat.count}">1</td>
+
+                        <td>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <input id="textarea2" class="materialize-textarea" th:field="*{questions[__${questStat.index}__].description}"/>
+                                    <label for="textarea2" class="active">Description</label>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td>
+                            <button class="btn" type="submit" name="removeQuestion" th:value="${questStat.index}" >Remove question</button>
+                        </td>
+
+                    </tr>
+
+                    <tr th:each="answer ,answerStat : *{questions[__${questStat.index}__].answers}">
+                        <td>Answers: </td>
+                        <td>
+                            <div class="row">
+                                <div class="input-field col s7">
+                                    <input id="textarea3" class="materialize-textarea" th:field="*{questions[__${questStat.index}__].answers[__${answerStat.index}__].description}"/>
+                                    <label for="textarea3" class="active">Description</label>
+                                </div>
+                                <div class="input-field col s5">
+                                    <select th:field="*{questions[__${questStat.index}__].answers[__${answerStat.index}__].isCorrect}" >
+                                        <option value="true">true</option>
+                                        <option value="false">false</option>
+                                    </select>
+                                    <label>Is correct?</label>
+                                </div>
+
+
+                            </div>
+                        </td>
+                        <td>
+
+                            <button class="btn" type="submit" name="removeAnswer" th:value="${answerStat.index} + '-' + ${questStat.index}">-</button>
+                            <button class="btn" type="submit" name="addAnswer" th:value="${questStat.index}">+</button>
+                        </td>
+
+                    </tr>
+
+                    </tbody>
+                </table>
+
+                <br>
+                <br>
+
+                <button class="btn waves-effect waves-light" type="submit" name="action">Create</button>
+            </form>
+        </div>
+
+        <br><br>
+    </div>
+</div>
+
+
+</main>
+
+<footer class="page-footer black">
+    <div class="footer-copyright">
+        <div class="container ">
+            <p class="right"> Made by <a class="red-text" href="https://github.com/mpusio">Michał Pusio</a></p>
+        </div>
+    </div>
+</footer>
+
+<!--  Scripts-->
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.js"></script>
+<script type="text/javascript" src="../../../static/js/init.js" th:src="@{/js/init.js/}"></script>
+<script type="text/javascript" src="../../../static/js/dynamic-fields.js" th:src="@{/js/password-confirm.js}"></script>
+
+</body>
+</html>

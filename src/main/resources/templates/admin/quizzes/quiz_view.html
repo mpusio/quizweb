@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+    <title>MP project</title>
+
+    <!-- CSS  -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.css" >
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/style.css" th:src="@{/css/style.css/}">
+
+</head>
+<body>
+
+
+<nav class="red" role="navigation">
+    <a id="logo-container" class="brand-logo center">Admin Panel</a>
+
+    <ul id="slide-out" class="sidenav">
+        <li><a class="black white-text sidenav-close">Control Panel</a></li>
+
+        <li><a class='dropdown-trigger black-text' data-target='dropdown_quizzes'>Quizzes</a></li>
+
+        <ul id='dropdown_quizzes' class='dropdown-content'>
+            <li th:each="quiz: ${quizzes}"><a href="#!" th:text="${quiz.title}" th:href="@{'/admin/quizzes/' + ${quiz.id} + '/view'}">one</a></li>
+        </ul>
+
+        <li><a class='dropdown-trigger black-text' data-target='dropdown_users'>Users</a></li>
+
+        <ul id='dropdown_users' class='dropdown-content'>
+            <li th:each="user: ${users}"><a href="#!" th:text="${user.email}" th:href="@{'/admin/users/' + ${user.id} + '/view'}">one</a></li>
+        </ul>
+
+        <li><a href="#!" th:href="@{/admin/quizzes}">List of Quizzes</a></li>
+        <li><a href="#!" th:href="@{/admin/users}">List of Users</a></li>
+        <li>
+            <a>
+                <form th:action="@{/logout}" method="post">
+                    <input type="submit" class="btn red" value="Logout"/>
+                </form>
+            </a>
+        </li>
+    </ul>
+    <a href="#" data-target="slide-out" class="sidenav-trigger show-on-large"><i class="material-icons">menu</i></a>
+
+</nav>
+
+<div class="section no-pad-bot" id="index-banner" >
+    <div class="container">
+        <br><br>
+        <h5 class="header center red-text">Quiz</h5>
+        <div class="row center">
+
+            <table class="centered striped">
+                <tr>
+                    <th>Id:</th>
+                    <td th:text="${quiz.id}">1</td>
+                </tr>
+                <tr>
+                    <th>Title:</th>
+                    <td th:text="${quiz.title}">Quiz 1</td>
+                </tr>
+                <tr>
+                    <th>Description:</th>
+                    <td th:text="${quiz.description}">This is description.</td>
+                </tr>
+            </table>
+
+            <br>
+            <h5 class="header center red-text">Questions</h5>
+
+            <table th:each="question : ${quiz.questions}">
+                <tr>
+                    <th>Id:</th>
+                    <td th:text="${question.id}">1</td>
+                </tr>
+                <tr>
+                    <th>Description:</th>
+                    <td th:text="${question.description}">Do you like coffee?</td>
+                </tr>
+                <tr>
+                    <th class="red-text">Answers:</th>
+                    <td>
+                        <table class="centered">
+                            <thead>
+                            <tr>
+                                <th>Id: </th>
+                                <th>Description: </th>
+                                <th>Is correct? </th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            <tr th:each="answer : ${question.answers}">
+                                <td th:text="${answer.id}">1</td>
+                                <td th:text="${answer.description}">yes</td>
+                                <td th:text="${answer.getIsCorrect()}">true</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+
+            <table th:remove="all">
+                <tr>
+                    <th>Id:</th>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <th>Description:</th>
+                    <td>Do you like coffee?</td>
+                </tr>
+                <tr>
+                    <th class="red-text">Answers:</th>
+                    <td>
+                        <table class="centered">
+                            <thead>
+                            <tr>
+                                <th>Id: </th>
+                                <th>Description: </th>
+                                <th>Is correct? </th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>yes</td>
+                                <td>true</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>no</td>
+                                <td>false</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+        <br><br>
+    </div>
+</div>
+
+
+
+<footer class="page-footer black">
+    <div class="footer-copyright">
+        <div class="container ">
+            <p class="right"> Made by <a class="red-text" href="https://github.com/mpusio">Michał Pusio</a></p>
+        </div>
+    </div>
+</footer>
+
+<!--  Scripts-->
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.js"></script>
+<script type="text/javascript" src="../../static/js/init.js" th:src="@{/js/init.js/}"></script>
+
+</body>
+</html>

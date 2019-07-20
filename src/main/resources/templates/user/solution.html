@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+    <title>MP project</title>
+
+    <!-- CSS  -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.css" >
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/style.css" th:href="@{/css/style.css/}">
+
+</head>
+
+<body class="blue-grey">
+<nav class="green accent-4" role="navigation">
+    <div class="nav-wrapper container"><a id="logo-container" href="#" th:href="@{/user/}" class="brand-logo">QuizWeb</a>
+        <ul class="right hide-on-med-and-down">
+            <li><a href="#" th:href="@{/user/quizzes}">Quizzes</a></li>
+            <li><a href="#" th:href="@{/user/account/profile}">Account</a></li>
+            <li>
+                <form th:action="@{/logout}" method="post">
+                    <input type="submit" class="btn" value="Logout"/>
+                </form>
+            </li>
+        </ul>
+
+        <ul id="nav-mobile" class="sidenav">
+            <li><a href="#" th:href="@{/user/quizzes}">Quizzes</a></li>
+            <li><a href="#" th:href="@{/user/account/profile}">Account</a></li>
+            <li>
+                <form th:action="@{/logout}" method="post">
+                    <input type="submit" class="btn" value="Logout"/>
+                </form>
+            </li>
+        </ul>
+        <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+    </div>
+</nav>
+
+<div class="section no-pad-bot" id="index-banner" >
+    <div class="container">
+        <br><br>
+        <h5 class="header center green-text">Questions:</h5>
+        <div class="row center">
+
+        <form th:object="${quiz}" th:action="@{${#httpServletRequest.getServletPath()}}" method="post">
+
+            <table th:each="question, questionStat : *{questions}">
+                <tr>
+                    <th>Description:</th>
+                    <td th:text="${question.description}">Do you like coffee?</td>
+                </tr>
+                <tr>
+                    <th class="green-text">Answers:</th>
+                    <td>
+                        <table>
+                            <tbody>
+                            <tr th:each="answer, answerStat : ${question.answers}">
+                                    <!--<p>-->
+                                        <!--<label>-->
+                                            <!--<input type="hidden" th:field="*{questions[__${questionStat.index}__].answers[__${answerStat.index}__].description}" th:value="${answer.description}" />-->
+                                            <!--<input disabled th:value="${answer.description}" />-->
+                                            <!--<select th:field="*{questions[__${questionStat.index}__].answers[__${answerStat.index}__].isCorrect}">-->
+                                                <!--<option value="true">true</option>-->
+                                                <!--<option th:selected value="false">false</option>-->
+                                            <!--</select>-->
+                                            <!--<span th:text="${answer.description}">Is correct?</span>-->
+                                        <!--</label>-->
+                                    <!--</p>-->
+                                <p>
+                                    <label>
+                                        <input type="hidden" th:field="*{questions[__${questionStat.index}__].answers[__${answerStat.index}__].id}" th:value="${answer.id}" />
+                                        <input type="hidden" th:field="*{questions[__${questionStat.index}__].answers[__${answerStat.index}__].description}" th:value="${answer.description}" />
+                                        <input name="group1" type="radio" class="filled-in" th:checked="false" th:value="true" th:field="*{questions[__${questionStat.index}__].answers[__${answerStat.index}__].isCorrect}"/>
+                                        <span th:text="${answer.description}">Is correct?</span>
+                                    </label>
+                                </p>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+
+            <button class="btn waves-effect waves-light" type="submit" name="action">Submit</button>
+
+        </form>
+
+        </div>
+        <br><br>
+    </div>
+</div>
+
+<footer class="page-footer blue-grey darken-3">
+    <div class="footer-copyright">
+        <div class="container">
+            Made by <a class="blue-text text-lighten-3" href="https://github.com/mpusio">Michał Pusio</a>
+        </div>
+    </div>
+</footer>
+
+<!--  Scripts-->
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.js"></script>
+<script type="text/javascript" src="../../static/js/init.js" th:src="@{/js/init.js/}"></script>
+
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+    <title>MP project</title>
+
+    <!-- CSS  -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.css" >
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/style.css" th:src="@{/css/style.css/}">
+
+</head>
+<body>
+
+
+<nav class="red" role="navigation">
+    <a id="logo-container" class="brand-logo center">Admin Panel</a>
+
+    <ul id="slide-out" class="sidenav">
+        <li><a class="black white-text sidenav-close">Control Panel</a></li>
+
+        <li><a class='dropdown-trigger black-text' data-target='dropdown_quizzes'>Quizzes</a></li>
+
+        <ul id='dropdown_quizzes' class='dropdown-content'>
+            <li th:each="quiz: ${quizzes}"><a href="#!" th:text="${quiz.title}" th:href="@{'/admin/quizzes/' + ${quiz.id} + '/view'}">one</a></li>
+        </ul>
+
+        <li><a class='dropdown-trigger black-text' data-target='dropdown_users'>Users</a></li>
+
+        <ul id='dropdown_users' class='dropdown-content'>
+            <li th:each="user: ${users}"><a href="#!" th:text="${user.email}" th:href="@{'/admin/users/' + ${user.id} + '/view'}">one</a></li>
+        </ul>
+
+        <li><a href="#!" th:href="@{/admin/quizzes}">List of Quizzes</a></li>
+        <li><a href="#!" th:href="@{/admin/users}">List of Users</a></li>
+        <li>
+            <a>
+                <form th:action="@{/logout}" method="post">
+                    <input type="submit" class="btn red" value="Logout"/>
+                </form>
+            </a>
+        </li>
+    </ul>
+    <a href="#" data-target="slide-out" class="sidenav-trigger show-on-large"><i class="material-icons">menu</i></a>
+
+</nav>
+
+<div class="section no-pad-bot" id="index-banner" >
+    <div class="container">
+        <br><br>
+        <h5 class="header center red-text">Edit user</h5>
+
+        <div class="row centered">
+
+            <form class="col s12" th:action="@{'/admin/users/' + ${id} + '/edit'}" th:object="${user}" method="post">
+
+
+                <div class="row" >
+                    <div class="input-field col s12">
+                        <input id="first_name" class="validate" value="First" th:value="${firstName}" th:field="*{firstName}" >
+                        <label for="first_name" class="active">First name</label>
+                    </div>
+                </div>
+                <div class="row" >
+                    <div class="input-field col s12">
+                        <input id="last_name" class="validate" value="Last" th:value="${lastName}" th:field="*{lastName}" >
+                        <label for="last_name" class="active">Last name</label>
+                    </div>
+                </div>
+                <div class="row" >
+                    <div class="input-field col s12">
+                        <input id="email" class="validate" value="email@o2.pl" th:value="${email}" th:field="*{email}" >
+                        <label for="email" class="active">Email</label>
+                    </div>
+                </div>
+                <div class="row" >
+                    <div class="input-field col s12">
+                        <input id="password" class="validate" value="password123" th:value="${password}" th:field="*{password}" >
+                        <label for="password" class="active">Password</label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="input-field col s12">
+                        <select th:field="*{role.role}">
+                            <option th:each="r : ${roles}"
+                                    th:value="${r.role}"
+                                    th:text="${r.role}" >Option 1</option>
+
+                            <option th:remove="all" value="2">Option 2</option>
+                            <option th:remove="all" value="3">Option 3</option>
+                        </select>
+                        <label>Role</label>
+                    </div>
+                </div>
+
+                <button class="btn waves-effect waves-light" type="submit" name="action">Edit user</button>
+            </form>
+        </div>
+
+        <br><br>
+    </div>
+</div>
+
+
+</main>
+
+<footer class="page-footer black">
+    <div class="footer-copyright">
+        <div class="container ">
+            <p class="right"> Made by <a class="red-text" href="https://github.com/mpusio">Michał Pusio</a></p>
+        </div>
+    </div>
+</footer>
+
+<!--  Scripts-->
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.js"></script>
+<script type="text/javascript" src="../../static/js/init.js" th:src="@{/js/init.js/}"></script>
+
+</body>
+</html>
