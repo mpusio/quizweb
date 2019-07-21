@@ -2,7 +2,7 @@ Quizweb is simple, pretty cool looking api to handle quizzes.
 Api is splited on 3 layers - Controllers, Servises and Domains. Api include standart CRUD operations on quizzes, users and used to this little complex opeartions like refresh authentication after change email during loggging in, nested input fields in thymeleaf etc.\
 Technology stack:\
 *Front-end: HTML, CSS, JS implemented by Materialize Framework \
-*Back-end: Thymeleaf engine, Maven, Spring Boot and in this: \
+*Back-end: Spring Boot and in this: \
 spring-boot-starter-data-jpa\
 spring-boot-starter-thymeleaf\
 spring-boot-starter-web\
