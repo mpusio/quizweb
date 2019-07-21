@@ -24,9 +24,9 @@ USER have acccess to all endpoints "/user/**"
 
 Exmaple account with "ADMIN" role:\
 email: "pusiomichal@gmail.com"\
-password: "qwerty123"\
-ADMIN have acccess to all endpoints "/user/**", "/admin/**"
-"/h2/**" <-- endpoint to h2 console\
-
+<pre>password: "qwerty123"\
+ADMIN have acccess to all endpoints "/user/**", "/admin/**" \
+"/h2/**" <-- endpoint to h2 console
+</pre>
 So, have fun and how i please don't destroy everything. I think you will appreaciate freedom in movement on webside that I gave you.
 Have fun :)
