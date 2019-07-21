@@ -18,16 +18,16 @@ How look relationship in embedded h2 database?
 Here you can test application: https://quizweb1.herokuapp.com/ 
 
 <pre>
-Example account with "USER" role:\
-email: "mostowiakmarek@gmail.com"\
-password: "karton123"\
+Example account with "USER" role:
+email: "mostowiakmarek@gmail.com"
+password: "karton123"
 USER have acccess to all endpoints "/user/**"
 </pre>
 <pre>
-Exmaple account with "ADMIN" role:\
-email: "pusiomichal@gmail.com"\
-password: "qwerty123"\
-ADMIN have acccess to all endpoints "/user/**", "/admin/**" \
+Exmaple account with "ADMIN" role:
+email: "pusiomichal@gmail.com"
+password: "qwerty123"
+ADMIN have acccess to all endpoints "/user/**", "/admin/**" 
 "/h2/**" <-- endpoint to h2 console
 </pre>
 So, have fun and how i please don't destroy everything. I think you will appreaciate freedom in movement on webside that I gave you.
