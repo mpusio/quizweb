@@ -20,16 +20,16 @@ public class Result {
     private Long id;
 
     @NonNull
-    private Integer achieved_points;
+    private Integer achievedPoints;
 
     @NonNull
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "quiz_id")
     private Quiz quiz;
 
 
     @NonNull
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
 }

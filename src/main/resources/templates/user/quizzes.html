@@ -66,7 +66,7 @@
                     <td>
                         <div th:each="result : ${results}">
                             <a th:if="${result.quiz.id == quiz.id}"
-                               th:text="${result.achieved_points} + '/' + ${quiz.questions.size()}">
+                               th:text="${result.getAchievedPoints()} + '/' + ${quiz.questions.size()}">
                             </a>
                         </div>
                     </td>

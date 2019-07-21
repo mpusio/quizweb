@@ -24,8 +24,8 @@ public class ResultService {
         Optional<Result> result = resultRepository.findByUserAndQuiz(user, quiz);
         if (result.isPresent()){
             Result existResult = result.get();
-            int betterResult = Math.max(points, existResult.getAchieved_points());
-            existResult.setAchieved_points(betterResult);
+            int betterResult = Math.max(points, existResult.getAchievedPoints());
+            existResult.setAchievedPoints(betterResult);
 
             resultRepository.save(existResult);
         }
