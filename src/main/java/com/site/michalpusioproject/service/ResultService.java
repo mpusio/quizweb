@@ -20,12 +20,12 @@ public class ResultService {
         this.resultRepository = resultRepository;
     }
 
-    public void addResult(Quiz quiz, User user, int points){
+    public void addOrUpdateResult(Quiz quiz, User user, int points){
         Optional<Result> result = resultRepository.findByUserAndQuiz(user, quiz);
         if (result.isPresent()){
             Result existResult = result.get();
-            int theBestResult = Math.max(points, existResult.getAchieved_points());
-            existResult.setAchieved_points(theBestResult);
+            int betterResult = Math.max(points, existResult.getAchieved_points());
+            existResult.setAchieved_points(betterResult);
 
             resultRepository.save(existResult);
         }

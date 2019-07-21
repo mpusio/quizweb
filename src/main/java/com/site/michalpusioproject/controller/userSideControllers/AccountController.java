@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestWrapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,12 +30,12 @@ public class AccountController {
         model.addAttribute("user", userService.getUserByEmail(sec.getRemoteUser()));
     }
 
-    @RequestMapping({"/profile", "/", ""})
+    @GetMapping({"/profile", "/", ""})
     public String getProfilePage(){
         return "user/account/profile";
     }
 
-    @RequestMapping("/security")
+    @GetMapping("/security")
     public String getSecurityPage(){
         return "user/account/security";
     }

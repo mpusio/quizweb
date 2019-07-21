@@ -74,7 +74,7 @@ public class UserService {
         checkRoleExistAndSave(user, nameOfRole);
     }
 
-    private boolean checkRoleExistAndSave(User user, String nameOfRole) {
+    private void checkRoleExistAndSave(User user, String nameOfRole) {
         Optional<Role> optionalRole = roleRepository.findAll().stream()
                 .filter(role -> role.getRole().equals(nameOfRole))
                 .findFirst();
@@ -82,9 +82,7 @@ public class UserService {
         if (optionalRole.isPresent()){
             optionalRole.get().addUser(user);
             roleRepository.save(optionalRole.get());
-            return true;
         }
-        return false;
     }
 
     public boolean isEmailExistInDatabase(String email){

@@ -21,10 +21,10 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Pattern(regexp = "^[A-Z]{1}[a-z]+", message="You should started by capital letter, without white signs, numbers e.g.: Michael, Fiona")
+    @Pattern(regexp = "^[A-Z\\p{L}]{1}[\\s\\p{L}]+", message="You should started by capital letter, without white signs, numbers e.g.: Michael, Fiona")
     private String firstName;
 
-    @Pattern(regexp = "^[A-Z]{1}[a-z]+", message="You should started by capital letter, without white signs, numbers e.g.: Obama, Smith")
+    @Pattern(regexp = "^[A-Z\\p{L}]{1}[\\s\\p{L}]+", message="You should started by capital letter, without white signs, numbers e.g.: Obama, Smith")
     private String lastName;
 
     @NonNull

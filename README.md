@@ -1,2 +1,0 @@
-# quizweb
-Small project 

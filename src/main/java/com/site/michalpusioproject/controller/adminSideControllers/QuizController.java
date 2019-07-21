@@ -83,7 +83,7 @@ public class QuizController {
         return "redirect:/admin/quizzes";
     }
 
-    @RequestMapping(value={"/quizzes/form", "/quizzes/{id}/edit"}, params={"addQuestion"})
+    @PostMapping(value={"/quizzes/form", "/quizzes/{id}/edit"}, params={"addQuestion"})
     public String addQuestion(@ModelAttribute("quiz") Quiz quiz, BindingResult bindingResult) {
         Question question = new Question();
         question.setAnswers(new ArrayList<>());
@@ -92,21 +92,21 @@ public class QuizController {
         return "admin/quizzes/quiz_form";
     }
 
-    @RequestMapping(value={"/quizzes/form", "/quizzes/{id}/edit"}, params={"removeQuestion"})
+    @PostMapping(value={"/quizzes/form", "/quizzes/{id}/edit"}, params={"removeQuestion"})
     public String removeQuestion(Quiz quiz, BindingResult bindingResult, HttpServletRequest req) {
         final Integer questionId = Integer.valueOf(req.getParameter("removeQuestion"));
         quiz.getQuestions().remove(questionId.intValue());
         return "admin/quizzes/quiz_form";
     }
 
-    @RequestMapping(value={"/quizzes/form", "/quizzes/{id}/edit"}, params={"addAnswer"})
+    @PostMapping(value={"/quizzes/form", "/quizzes/{id}/edit"}, params={"addAnswer"})
     public String addAnswer(Quiz quiz, Question question, BindingResult bindingResult, HttpServletRequest req) {
         final Integer questionId = Integer.valueOf(req.getParameter("addAnswer"));
         quiz.getQuestions().get(questionId).getAnswers().add(new Answer());
         return "admin/quizzes/quiz_form";
     }
 
-    @RequestMapping(value={"/quizzes/form", "/quizzes/{id}/edit"}, params={"removeAnswer"})
+    @PostMapping(value={"/quizzes/form", "/quizzes/{id}/edit"}, params={"removeAnswer"})
     public String removeAnswer(Quiz quiz,  BindingResult bindingResult, HttpServletRequest req) {
         String[] answerIdAndQuestionId = req.getParameter("removeAnswer").split("-");
 

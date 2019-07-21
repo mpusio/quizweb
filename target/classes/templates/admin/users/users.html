@@ -14,6 +14,9 @@
 
 </head>
 
+<body>
+
+<main>
 
 <nav class="red" role="navigation">
     <a id="logo-container" class="brand-logo center">Admin Panel</a>
@@ -70,9 +73,9 @@
                     <td th:text="${user.email}">user2@gmail.com</td>
                     <td th:text="${user.password}">user123</td>
 
-                    <td><a href="#" th:href="@{'/admin/users/' + ${user.id} + '/view'}">view</a></td>
-                    <td><a href="#" th:href="@{'/admin/users/' + ${user.id} + '/edit'}">edit</a></td>
-                    <td><a href="#" th:href="@{'/admin/users/' + ${user.id} + '/delete'}">delete</a></td>
+                    <td><a href="#" th:if="${user.email} != #{mainadmin.email}" th:href="@{'/admin/users/' + ${user.id} + '/view'}">view</a></td>
+                    <td><a href="#" th:if="${user.email} != #{mainadmin.email}" th:href="@{'/admin/users/' + ${user.id} + '/edit'}">edit</a></td>
+                    <td><a href="#" th:if="${user.email} != #{mainadmin.email}" th:href="@{'/admin/users/' + ${user.id} + '/delete'}">delete</a></td>
                 </tr>
 
 
@@ -99,7 +102,7 @@
     </div>
 </div>
 
-
+</main>
 
 <footer class="page-footer black">
     <div class="footer-copyright">

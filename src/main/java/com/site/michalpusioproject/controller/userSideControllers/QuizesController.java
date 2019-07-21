@@ -59,7 +59,7 @@ public class QuizesController {
         int achievedPoints = Integer.valueOf(result.split("/")[0]);
         User actualUser = userService.getUserByEmail(authentication.getName());
 
-        resultService.addResult(solvedQuiz, actualUser, achievedPoints);
+        resultService.addOrUpdateResult(solvedQuiz, actualUser, achievedPoints);
 
         model.addAttribute("result", result);
         return "user/result";
