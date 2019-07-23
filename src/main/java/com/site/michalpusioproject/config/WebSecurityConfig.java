@@ -40,15 +40,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
-
-
         http
         .authorizeRequests()
                 .antMatchers("/").permitAll()
                 .antMatchers("/login", "/registration").anonymous()
-                .antMatchers("/user/**").hasAnyAuthority("USER", "ADMIN")
-                .antMatchers("/admin/**", (h2ConsoleEndpoint + "/**")).hasAuthority("ADMIN").anyRequest().authenticated()
+                .antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
+                //.antMatchers("/user/**").hasAnyAuthority("USER", "ADMIN")
+                .antMatchers("/admin/**", (h2ConsoleEndpoint + "/**")).hasRole("ADMIN")
+                //.antMatchers("/admin/**", (h2ConsoleEndpoint + "/**")).hasAuthority("ADMIN").anyRequest().authenticated()
                 .and()
                 .csrf().disable()
                 .formLogin()
@@ -65,8 +64,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.headers().frameOptions().disable();
     }
-
-
 
     @Override
     public void configure(WebSecurity web) throws Exception {

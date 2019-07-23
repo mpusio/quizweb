@@ -84,7 +84,7 @@ public class QuizController {
     }
 
     @PostMapping(value={"/quizzes/form", "/quizzes/{id}/edit"}, params={"addQuestion"})
-    public String addQuestion(@ModelAttribute("quiz") Quiz quiz, BindingResult bindingResult) {
+    public String addQuestion(Quiz quiz, BindingResult bindingResult) {
         Question question = new Question();
         question.setAnswers(new ArrayList<>());
         question.getAnswers().add(new Answer());

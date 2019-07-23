@@ -4,27 +4,25 @@ import com.site.michalpusioproject.domains.Answer;
 import com.site.michalpusioproject.domains.Question;
 import com.site.michalpusioproject.domains.Quiz;
 import com.site.michalpusioproject.service.QuizService;
-import com.site.michalpusioproject.service.UserService;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.test.web.servlet.request.RequestPostProcessor;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
-import static org.hamcrest.Matchers.containsString;
-import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -33,19 +31,37 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-@WithMockUser(username = "username", roles={"ADMIN"})
 public class QuizControllerTest {
 
     @Autowired
     private MockMvc mvc;
 
     @MockBean
+    private HttpServletRequest request;
+
+    @MockBean
     private QuizService quizService;
+
+
+    @Before
+    public void setUp() throws Exception {
+        MockitoAnnotations.initMocks(this);
+    }
+
+
+
+    private static RequestPostProcessor adminAcc() {
+        return user("admin").password("pass").roles("ADMIN");
+    }
+
+    private static RequestPostProcessor userAcc(){
+        return user("user").password("pass").roles("USER");
+    }
 
     @Test
     public void getOrderedQuizzes() throws Exception{
         mvc
-                .perform(get("/admin/quizzes"))
+                .perform(get("/admin/quizzes").with(adminAcc()))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(view().name("admin/quizzes/quizzes"));
@@ -54,10 +70,10 @@ public class QuizControllerTest {
     @Test
     public void getQuizById() throws Exception{
         when(quizService.getQuizById(anyLong())).thenReturn(Optional.of(new Quiz()));
-        Long exampleId = 1L;
+        Long exampleId = 5L;
 
         mvc
-                .perform(get("/admin/quizzes/" + exampleId +"/view"))
+                .perform(get("/admin/quizzes/" + exampleId +"/view").with(adminAcc()))
                 .andDo(print())
                 .andExpect(model().attributeExists("quiz"))
                 .andExpect(status().isOk())
@@ -67,10 +83,10 @@ public class QuizControllerTest {
     @Test
     public void editQuizById() throws Exception {
         when(quizService.getQuizById(anyLong())).thenReturn(Optional.of(new Quiz()));
-        Long exampleId = 2L;
+        Long exampleId = 4L;
 
         mvc
-                .perform(get("/admin/quizzes/" + exampleId +"/edit"))
+                .perform(get("/admin/quizzes/" + exampleId +"/edit").with(adminAcc()))
                 .andDo(print())
                 .andExpect(model().attributeExists("quiz"))
                 .andExpect(status().isOk())
@@ -78,13 +94,12 @@ public class QuizControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "username", roles={"ADMIN", "USER"})
     public void deleteQuizById() throws Exception {
         doNothing().when(quizService).deleteQuizById(anyLong());
-        Long exampleId = 20L;
+        Long exampleId = 6L;
 
         mvc
-                .perform(get("/admin/quizzes/" + exampleId +"/delete"))
+                .perform(get("/admin/quizzes/" + exampleId +"/delete").with(adminAcc()))
                 .andDo(print())
                 .andExpect(status().isFound())
                 .andExpect(view().name("redirect:/admin/quizzes"));
@@ -93,7 +108,7 @@ public class QuizControllerTest {
     @Test
     public void getFormPage() throws Exception {
         mvc
-                .perform(get("/admin/quizzes/form"))
+                .perform(get("/admin/quizzes/form").with(adminAcc()))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("quiz"))
@@ -105,7 +120,7 @@ public class QuizControllerTest {
         doNothing().when(quizService).insertOrUpdateQuiz(any(Quiz.class));
 
         mvc
-                .perform(post("/admin/quizzes/form"))
+                .perform(post("/admin/quizzes/form").with(adminAcc()))
                 .andDo(print())
                 .andExpect(status().isFound())
                 .andExpect(view().name("redirect:/admin/quizzes"));
@@ -125,18 +140,25 @@ public class QuizControllerTest {
 
         mvc
                 .perform(post("/admin/quizzes/form?addQuestion=?", "addQuestion")
-                        .sessionAttr("quiz", quiz))
-
+                        .flashAttr("quiz", quiz).with(adminAcc()))
 
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(view().name("admin/quizzes/quiz_form"));
     }
-//
+
 //    @Test
 //    public void removeQuestion() throws Exception {
+//        String formAuth = HttpServletRequest.BASIC_AUTH;
+//
+//
+//        when(this.request.getParameter(anyString())).thenReturn("1");
+//
 //        mvc
-//                .perform(post("/admin/quizzes/form?removeQuestion=?", "removeQuestion"))
+//                .perform(post("/admin/quizzes/form?removeQuestion=?", "removeQuestion")
+//                        .flashAttr("quiz", new Quiz())
+//                        .flashAttr("req", new Integer(2))
+//                        .with(adminAcc()))
 //                .andDo(print())
 //                .andExpect(status().isOk())
 //                .andExpect(view().name("admin/quizzes/quiz_form"));
