@@ -107,7 +107,9 @@ public class QuizServiceTest {
         Question question2 = new Question();
 
         Answer answer1 = new Answer("desc");
+        answer1.setIsCorrect(true);
         Answer answer2 = new Answer("second desc");
+        answer2.setIsCorrect(false);
 
         question1.setAnswers(Collections.singletonList(answer1));
         question2.setAnswers(Collections.singletonList(answer2));

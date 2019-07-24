@@ -12,11 +12,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.config.core.GrantedAuthorityDefaults;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.RequestPostProcessor;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,7 +49,11 @@ public class UserControllerTest {
     private RoleRepository roleRepository;
 
     private static RequestPostProcessor adminAcc() {
-        return user("admin").password("pass").roles("ADMIN");
+        return user("admin").password("pass").roles("ADMIN").authorities(Collections.singleton(new SimpleGrantedAuthority("ADMIN")));
+    }
+
+    private static RequestPostProcessor userAcc(){
+        return user("user").password("pass").roles("USER").authorities(Collections.singleton(new SimpleGrantedAuthority("USER")));
     }
 
     @Test

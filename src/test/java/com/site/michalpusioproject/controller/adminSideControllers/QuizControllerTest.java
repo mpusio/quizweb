@@ -7,17 +7,20 @@ import com.site.michalpusioproject.service.QuizService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.RequestPostProcessor;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -29,33 +32,31 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(
+        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 public class QuizControllerTest {
 
     @Autowired
     private MockMvc mvc;
 
-    @MockBean
+    @Mock
     private HttpServletRequest request;
 
     @MockBean
     private QuizService quizService;
-
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
     }
 
-
-
     private static RequestPostProcessor adminAcc() {
-        return user("admin").password("pass").roles("ADMIN");
+        return user("admin").password("pass").roles("ADMIN").authorities(Collections.singleton(new SimpleGrantedAuthority("ADMIN")));
     }
 
     private static RequestPostProcessor userAcc(){
-        return user("user").password("pass").roles("USER");
+        return user("user").password("pass").roles("USER").authorities(Collections.singleton(new SimpleGrantedAuthority("USER")));
     }
 
     @Test
@@ -149,21 +150,35 @@ public class QuizControllerTest {
 
 //    @Test
 //    public void removeQuestion() throws Exception {
-//        String formAuth = HttpServletRequest.BASIC_AUTH;
+//        Quiz quiz = new Quiz();
+//
+//        Question question = new Question();
+//        Answer answer = new Answer();
+//
+//        question.setAnswers(new ArrayList<>());
+//        question.getAnswers().add(answer);
+//
+//        Question question1 = new Question();
+//        Answer answer1 = new Answer();
+//
+//        question.setAnswers(new ArrayList<>());
+//        question.getAnswers().add(answer1);
+//
+//        quiz.setQuestions(new ArrayList<>());
+//        quiz.getQuestions().add(question);
+//        quiz.getQuestions().add(question1);
 //
 //
-//        when(this.request.getParameter(anyString())).thenReturn("1");
+//        when(request.getParameter(anyString())).thenReturn("1");
 //
 //        mvc
 //                .perform(post("/admin/quizzes/form?removeQuestion=?", "removeQuestion")
-//                        .flashAttr("quiz", new Quiz())
-//                        .flashAttr("req", new Integer(2))
+//                        .flashAttr("quiz", quiz)
+//                        .flashAttr("req", request)
 //                        .with(adminAcc()))
 //                .andDo(print())
 //                .andExpect(status().isOk())
 //                .andExpect(view().name("admin/quizzes/quiz_form"));
-//
-//
 //    }
 //
 //    @Test

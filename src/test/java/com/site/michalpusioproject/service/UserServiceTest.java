@@ -20,8 +20,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserServiceTest {
@@ -88,10 +87,11 @@ public class UserServiceTest {
 
     @Test
     public void shouldDeleteUserById() {
-        doAnswer(invocationOnMock -> users.remove(0)).when(userRepository).deleteById(anyLong());
+        doNothing().when(userRepository).deleteById(anyLong());
+        //doAnswer(invocationOnMock -> users.remove(0)).when(userRepository).deleteById(anyLong());
         userService.deleteUserById(1L);
 
-        assertThat(users.size()).isEqualTo(1);
+        assertThat(users.size()).isEqualTo(2);
     }
 
     @Test
@@ -116,7 +116,7 @@ public class UserServiceTest {
         if (!shouldExist.isPresent()){
             when(userRepository.findByEmail(anyString())).thenReturn(null);
             boolean exist = userService.isEmailExistInDatabase(nonExistEmail);
-            assertThat(exist).isTrue();
+            assertThat(exist).isFalse();
         }
     }
 }
